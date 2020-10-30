@@ -1,58 +1,66 @@
 [
   {
     "count": 4,
-    "description": "Short Product Description1",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
     "price": 2.4,
-    "title": "ProductOne"
+    "title": "Респиратор 1",
+     "img": "./assets/1.jpg"
   },
   {
     "count": 6,
-    "description": "Short Product Description3",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a0",
     "price": 10,
-    "title": "ProductNew"
+    "title": "Респиратор 2",
+    "img": "./assets/2.jpg"
   },
   {
     "count": 7,
-    "description": "Short Product Description2",
+    "description": "SКрутой респиратор",
     "id": "7567ec4b-b10c-48c5-9345-dc731c58a60a1",
     "price": 23,
-    "title": "ProductTop"
+    "title": "Респиратор 3",
+    "img": "./assets/3.jpg"
   },
   {
     "count": 12,
-    "description": "Short Product Description7",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
     "price": 15,
-    "title": "ProductTitle"
+    "title": "Респиратор 4",
+    "img": "./assets/4.jpg"
   },
   {
     "count": 7,
-    "description": "Short Product Description2",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a2",
     "price": 23,
-    "title": "Product"
+    "title": "Респиратор 5",
+    "img": "./assets/1.jpg"
   },
   {
     "count": 8,
-    "description": "Short Product Description4",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-48c5-9345-fc73348a80a1",
     "price": 15,
-    "title": "ProductTest"
+    "title": "Респиратор 8",
+    "img": "./assets/3.jpg"
   },
   {
     "count": 2,
-    "description": "Short Product Descriptio1",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
     "price": 23,
-    "title": "Product2"
+    "title": "Респиратор 12",
+    "img": "./assets/2.jpg"
   },
   {
     "count": 3,
-    "description": "Short Product Description7",
+    "description": "Крутой респиратор",
     "id": "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
     "price": 15,
-    "title": "ProductName"
+    "title": "Респиратор 13",
+    "img": "./assets/4.jpg"
   }
 ]
