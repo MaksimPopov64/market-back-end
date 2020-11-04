@@ -2,7 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import * as data from './productList.json';
 
-export const getProducts: APIGatewayProxyHandler = async (event, _context) => {
+export const getProducts: APIGatewayProxyHandler = async () => {
   return {
     headers: {
       'Access-Control-Allow-Origin': '*',
