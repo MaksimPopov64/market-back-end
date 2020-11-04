@@ -1,0 +1,65 @@
+swagger: "2.0"
+info:
+  description: "Basic swagger description"
+  version: "1.0.0"
+  title: "Swagger Bulks Store"
+host: "yictl8tis3.execute-api.eu-west-1.amazonaws.com"
+basePath: "/dev"
+tags:
+  - name: "productService"
+    description: "Provide product data"
+paths:
+  /products:
+    get:
+      tags:
+        - "productService"
+      summary: "Get product list"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ProductsResponse"
+  /product:
+    get:
+      tags:
+        - "productService"
+      summary: "Get specific product"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "query"
+          description: "Product id"
+          required: false
+          type: "integer"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Product"
+        404:
+          description: "Not found"
+          schema:
+            type: "object"
+definitions:
+  ProductsResponse:
+    type: "array"
+    items:
+      $ref: "#/definitions/Product"
+  Product:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"
+      id:
+        type: "string"
+      price:
+        type: "number"
+      currency:
+        type: "string"
+      count:
+        type: "integer"
