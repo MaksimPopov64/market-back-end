@@ -1,10 +1,11 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
-import * as data from './productList.json';
+import { getProductRow } from './pg-client';
 import 'source-map-support/register';
 
 export const productById: APIGatewayProxyHandler = async (event, _context) => {
   const { id } = event.pathParameters;
-  const item = data.find((item: any) => item.id === id );
+  const item = await getProductRow(id);
+  const product = item[0];
   return {
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -12,7 +13,7 @@ export const productById: APIGatewayProxyHandler = async (event, _context) => {
     },
     statusCode: 200,
     body: JSON.stringify({     
-      item,      
+      product,      
     }, null, 2),
   };
 }
