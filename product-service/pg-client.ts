@@ -22,6 +22,7 @@ export const invoke = async () => {
     return products;   
   } catch (err) {    
     console.error('Error during database request executing:', err);
+    throw err;
   } finally {    
     client.end(); 
   }
@@ -37,6 +38,7 @@ export const addProduct = async (title: string, description: string, price: numb
     return products;
   } catch (err) {    
     console.error('Error during database request executing:', err);
+    throw err;
   } finally {   
     client.end();
   }
@@ -50,6 +52,7 @@ export const getProductRow = async (id: string) => {
     return product;  
   } catch (err) {   
     console.error('Error during database request executing:', err);
+    throw err;
   } finally {    
     client.end();
   }
