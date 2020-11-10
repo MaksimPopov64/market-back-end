@@ -29,7 +29,7 @@ const serverlessConfiguration: Serverless = {
       PG_DATABASE: 'lesson4',
       PG_USERNAME: 'postgres',
       PG_PASSWORD: 'dzZ2oxz7vDvtWxaD2tKz',
-    },
+    }    
   },
   functions: {
     products: {
@@ -67,8 +67,9 @@ const serverlessConfiguration: Serverless = {
           },
         },
       ],
-    },
+    }   
   },
+  
 };
 
 module.exports = serverlessConfiguration;
