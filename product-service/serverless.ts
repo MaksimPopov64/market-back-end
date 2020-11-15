@@ -11,8 +11,8 @@ const serverlessConfiguration: Serverless = {
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
-      includeModules: true
-    }
+      includeModules: true,
+    },
   },
   // Add the serverless-webpack plugin
   plugins: ['serverless-webpack'],
@@ -24,8 +24,10 @@ const serverlessConfiguration: Serverless = {
       minimumCompressionSize: 1024,
     },
     environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-    },
+      PG_HOST: 'lesson4-instance.cr99zrmm0khq.us-east-1.rds.amazonaws.com',
+      PG_PORT: '5432',
+      PG_DATABASE: 'lesson4',      
+    }    
   },
   functions: {
     products: {
@@ -35,10 +37,10 @@ const serverlessConfiguration: Serverless = {
           http: {
             method: 'get',
             path: 'products',
-            cors: true,           
-          },         
-        }
-      ]
+            cors: true,
+          },
+        },
+      ],
     },
     productById: {
       handler: 'getProductById.productById',
@@ -51,8 +53,21 @@ const serverlessConfiguration: Serverless = {
             }                             
         }
       ]
-    }
-  }
-}
+    },
+    createProduct: {
+      handler: 'products.createProduct',
+      events: [
+        {
+          http: {
+            method: 'post',
+            path: 'products',
+            cors: true,
+          },
+        },
+      ],
+    }   
+  },
+  
+};
 
 module.exports = serverlessConfiguration;
