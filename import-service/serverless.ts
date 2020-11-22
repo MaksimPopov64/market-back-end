@@ -3,16 +3,13 @@ import type { Serverless } from 'serverless/aws';
 const serverlessConfiguration: Serverless = {
   service: {
     name: 'import-service',
-    // app and org for use with dashboard.serverless.com
-    // app: your-app-name,
-    // org: your-org-name,
   },
   frameworkVersion: '2',
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
-      includeModules: true
-    }
+      includeModules: true,
+    },
   },
   // Add the serverless-webpack plugin
   plugins: ['serverless-webpack'],
@@ -29,17 +26,17 @@ const serverlessConfiguration: Serverless = {
       {
         Effect: 'Allow',
         Action: 's3:ListBucket',
-        Resource: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school'
+        Resource: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school',
       },
       {
         Effect: 'Allow',
         Action: 's3:*',
-        Resource: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school/*'
-      }
-    ]
+        Resource: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school/*',
+      },
+    ],
   },
   functions: {
-    importProductsFile :{
+    importProductsFile: {
       handler: 'import.importProductsFile',
       events: [
         {
@@ -47,13 +44,31 @@ const serverlessConfiguration: Serverless = {
             method: 'get',
             path: 'import',
             request: {
-              parameters: { querystrings: { name: true } },              
-            },   
+              parameters: { querystrings: { name: true } },
+            },
           },
         },
       ],
-    }
-  }
-}
+    },
+    importFileParser: {
+      handler: 'fileParser.importFileParser',
+      events: [
+        {
+          s3: {
+            bucket: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school/',
+            existing: true,
+            event: 's3:ObjectCreated:*',
+            rules: [
+              {
+                prefix: `uploaded/`,
+                suffix: '.csv',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+};
 
 module.exports = serverlessConfiguration;
