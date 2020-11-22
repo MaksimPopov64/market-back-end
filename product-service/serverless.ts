@@ -29,6 +29,39 @@ const serverlessConfiguration: Serverless = {
       PG_DATABASE: 'lesson4',      
     }    
   },
+  resources: {
+    Resources: {
+      SQSQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalog-items-queue',
+          ReceiveMessageWaitTimeSeconds: 20,
+        }
+      },
+      SNSTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'create-product-topic',
+        },
+      },
+      SNSSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'maximsc1285@gmail.com',
+          Protocol: 'email',
+          TopicArn: { Ref: 'SNSTopic' },
+        }
+      }
+    },
+    Outputs: {
+      SQSUrl: {
+        Value: { Ref: 'SQSQueue' }
+      },
+      SQSArn: {
+        Value: { 'Fn::GetAtt': ['SQSQueue', 'Arn'] },
+      },
+    }
+  },
   functions: {
     products: {
       handler: 'products.getProducts',
@@ -65,7 +98,18 @@ const serverlessConfiguration: Serverless = {
           },
         },
       ],
-    }   
+    },
+    catalogBatchProcess: {
+      handler: 'catalogBatchProcess.catalogBatchProcess',
+      events: [
+        {
+          sqs: {
+            batchSize: 5,
+            arn: { 'Fn::GetAtt': ['SQSQueue', 'Arn'] },
+          },
+        },
+      ],
+    }, 
   },
   
 };

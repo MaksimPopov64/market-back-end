@@ -1,12 +1,37 @@
-import { S3 } from 'aws-sdk';
+import { S3, SQS } from 'aws-sdk';
 import * as csv from 'csv-parser';
+import { Transform } from 'stream';
 const BUCKET = 'photos-bucket-aws-in-cloud-rs-school';
+
+class SendToSQS extends Transform {
+  constructor( private sqs:SQS) {
+    super({objectMode: true});
+  }
+
+  _transform(record, _enc, callback) {
+    this.sqs.sendMessage({
+        QueueUrl: process.env.SQS_URL,
+        MessageBody: JSON.stringify(record),
+    }, (error, result) => {
+        if (error) {
+          console.error(error);
+        }
+        console.log(result);
+    })
+    callback(null, record);
+  }
+}
 
 export const importFileParser = (event) => {
   console.log('importFileParser Lambda started execution');
+  
+  const sqs = new SQS({ region: 'us-east-1' });
 
   const s3 = new S3({ region: 'us-east-1' });
+
   console.log('initialize importFileParser handler');
+  
+  const toSqsStream = new  SendToSQS(sqs);
 
   event.Records.forEach((record) => {
     const objectKey = record.s3.object.key;
@@ -20,6 +45,8 @@ export const importFileParser = (event) => {
     s3Stream
       .pipe(csv())
       .on('data', (data) => console.log(data))
+      .pipe(csv())   
+      .pipe(toSqsStream)
       .on('end', async () => {
         const newObjectKey = objectKey.replace('uploaded', 'parsed');
         await s3
@@ -36,9 +63,7 @@ export const importFileParser = (event) => {
             Key: objectKey,
           })
           .promise();
-
-        console.log(`Copied into ${BUCKET}/${newObjectKey}`);
-        console.log(`Deleted from ${BUCKET}/uploaded`);
+        
       });
   });
   return {
