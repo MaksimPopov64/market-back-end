@@ -55,7 +55,7 @@ const serverlessConfiguration: Serverless = {
       events: [
         {
           s3: {
-            bucket: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school/',
+            bucket: 'photos-bucket-aws-in-cloud-rs-school',
             existing: true,
             event: 's3:ObjectCreated:*',
             rules: [
