@@ -21,7 +21,7 @@ const serverlessConfiguration: Serverless = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-      SQS_URL: `\$\{cf:product-service-dev.SQSUrl\}`,
+      SQS_URL: `\$\{cf:product-service.SQSUrl\}`,
     },
     iamRoleStatements: [
       {
@@ -37,7 +37,7 @@ const serverlessConfiguration: Serverless = {
       {
         Effect: 'Allow',
         Action: ['sqs:SendMessage'],
-        Resource: [`\$\{cf:product-service-dev.SQSArn\}`],
+        Resource: [`\$\{cf:product-service.SQSArn\}`],
       },
     ],
   },
