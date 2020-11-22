@@ -1,11 +1,14 @@
 import * as AWS from 'aws-sdk';
-
+import { APIGatewayProxyHandler } from "aws-lambda";
 const BUCKET = 'photos-bucket-aws-in-cloud-rs-school';
-const catalogPath = 'uploaded/catalog.csv';
-export const importProductsFile = async() => {
+
+export const importProductsFile:APIGatewayProxyHandler = async(event) => {
+  
   const s3 = new AWS.S3({ region: 'us-east-1' });
   let status = 200;
   let urlString ='';
+  const {queryStringParameters: {name} = {}} = event;
+  const catalogPath = `uploaded/${name}`;
   
   const params = {
     Bucket: BUCKET,
