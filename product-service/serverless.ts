@@ -1,4 +1,5 @@
 import type { Serverless } from 'serverless/aws';
+import { config } from '../config';
 
 const serverlessConfiguration: Serverless = {
   service: {
@@ -19,14 +20,15 @@ const serverlessConfiguration: Serverless = {
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
-    region: 'eu-west-1',
+    region: config.region,
     apiGateway: {
       minimumCompressionSize: 1024,
     },
     environment: {
-      PG_HOST: 'lesson4-instance.cr99zrmm0khq.us-east-1.rds.amazonaws.com',
+      PG_HOST: `lesson4-instance.cr99zrmm0khq.${config.region}.rds.amazonaws.com`,
       PG_PORT: '5432',
-      PG_DATABASE: 'lesson4',      
+      PG_DATABASE: 'lesson4',   
+     
     }    
   },
   resources: {

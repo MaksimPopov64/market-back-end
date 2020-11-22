@@ -1,10 +1,11 @@
 import * as AWS from 'aws-sdk';
 import { APIGatewayProxyHandler } from "aws-lambda";
 const BUCKET = 'photos-bucket-aws-in-cloud-rs-school';
+import { config  } from '../config';
 
 export const importProductsFile:APIGatewayProxyHandler = async(event) => {
   
-  const s3 = new AWS.S3({ region: 'us-east-1' });
+  const s3 = new AWS.S3({ region: config.region });
   let status = 200;
   let urlString ='';
   const {queryStringParameters: {name} = {}} = event;

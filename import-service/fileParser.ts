@@ -1,6 +1,7 @@
 import { S3, SQS } from 'aws-sdk';
 import * as csv from 'csv-parser';
 import { Transform } from 'stream';
+import { config  } from '../config';
 const BUCKET = 'photos-bucket-aws-in-cloud-rs-school';
 
 class SendToSQS extends Transform {
@@ -25,12 +26,12 @@ class SendToSQS extends Transform {
 export const importFileParser = (event) => {
   console.log('importFileParser Lambda started execution');
   
-  const sqs = new SQS({ region: 'us-east-1' });
+  const sqs = new SQS({ region: config.region });
 
-  const s3 = new S3({ region: 'us-east-1' });
+  const s3 = new S3({ region: config.region });
 
   console.log('initialize importFileParser handler');
-  
+
   const toSqsStream = new  SendToSQS(sqs);
 
   event.Records.forEach((record) => {
