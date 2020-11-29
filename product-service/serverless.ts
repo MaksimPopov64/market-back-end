@@ -28,8 +28,7 @@ const serverlessConfiguration: Serverless = {
       PG_HOST: `lesson4-instance.cr99zrmm0khq.${config.region}.rds.amazonaws.com`,
       PG_PORT: '5432',
       PG_DATABASE: 'lesson4',   
-      PG_USERNAME: 'postgres',
-      PG_PASSWORD: 'dzZ2oxz7vDvtWxaD2tKz',   
+    
     }    
   },
   resources: {
