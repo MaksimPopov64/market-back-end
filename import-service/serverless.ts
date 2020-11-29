@@ -1,5 +1,6 @@
 import type { Serverless } from 'serverless/aws';
 
+
 const serverlessConfiguration: Serverless = {
   service: {
     name: 'import-service',
@@ -21,6 +22,7 @@ const serverlessConfiguration: Serverless = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      SQS_URL: `\$\{cf:product-service-dev.SQSUrl\}`,
     },
     iamRoleStatements: [
       {
@@ -33,8 +35,15 @@ const serverlessConfiguration: Serverless = {
         Action: 's3:*',
         Resource: 'arn:aws:s3:::photos-bucket-aws-in-cloud-rs-school/*',
       },
+      {
+        Effect: 'Allow',
+        Action: ['sqs:SendMessage'],
+        Resource: [`\$\{cf:product-service-dev.SQSArn\}`], 
+      },
     ],
   },
+  
+
   functions: {
     importProductsFile: {
       handler: 'import.importProductsFile',
@@ -67,7 +76,7 @@ const serverlessConfiguration: Serverless = {
           },
         },
       ],
-    },
+    },  
   },
 };
 

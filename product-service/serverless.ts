@@ -1,4 +1,5 @@
 import type { Serverless } from 'serverless/aws';
+import { config } from '../config';
 
 const serverlessConfiguration: Serverless = {
   service: {
@@ -19,15 +20,49 @@ const serverlessConfiguration: Serverless = {
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
-    region: 'eu-west-1',
+    region: config.region,
     apiGateway: {
       minimumCompressionSize: 1024,
     },
     environment: {
-      PG_HOST: 'lesson4-instance.cr99zrmm0khq.us-east-1.rds.amazonaws.com',
+      PG_HOST: `lesson4-instance.cr99zrmm0khq.${config.region}.rds.amazonaws.com`,
       PG_PORT: '5432',
-      PG_DATABASE: 'lesson4',      
+      PG_DATABASE: 'lesson4',   
+     
     }    
+  },
+  resources: {
+    Resources: {
+      SQSQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalog-items-queue',
+          ReceiveMessageWaitTimeSeconds: 20,
+        }
+      },
+      SNSTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'create-product-topic',
+        },
+      },
+      SNSSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'maximsc1285@gmail.com',
+          Protocol: 'email',
+          TopicArn: { Ref: 'SNSTopic' },
+        }
+      }
+    },
+    Outputs: {
+      SQSUrl: {
+        Value: { Ref: 'SQSQueue' }
+      },
+      SQSArn: {
+        Value: { 'Fn::GetAtt': ['SQSQueue', 'Arn'] },
+      },
+    }
   },
   functions: {
     products: {
@@ -65,7 +100,18 @@ const serverlessConfiguration: Serverless = {
           },
         },
       ],
-    }   
+    },
+    catalogBatchProcess: {
+      handler: 'catalogBatchProcess.catalogBatchProcess',
+      events: [
+        {
+          sqs: {
+            batchSize: 5,
+            arn: { 'Fn::GetAtt': ['SQSQueue', 'Arn'] },
+          },
+        },
+      ],
+    }, 
   },
   
 };

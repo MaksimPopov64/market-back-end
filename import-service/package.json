@@ -10,7 +10,8 @@
   "dependencies": {
     "aws-sdk": "^2.788.0",
     "csv-parser": "^2.3.3",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.10",
+    "stream": "0.0.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.17",

@@ -1,8 +1,9 @@
 import * as AWS from 'aws-sdk';
+import { config  } from '../config';
 
 const BUCKET = 'photos-bucket-aws-in-cloud-rs-school';
 export const getProductsLinks = async() => {
-  const s3 = new AWS.S3({ region: 'us-east-1' });
+  const s3 = new AWS.S3({ region: config.region });
   let status = 200;
   let thumbnails = [];
   const params = {
